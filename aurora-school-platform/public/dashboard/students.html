@@ -1,0 +1,159 @@
+<!-- public/dashboard/students.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management | Aurora Platform</title>
+    <link rel="stylesheet" href="/assets/css/tokens.css">
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <style>
+        body { background-color: #f4f6f8; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Sidebar (Same as Admin Dashboard) */
+        .sidebar { width: 250px; background-color: var(--color-midnight-navy); color: var(--color-white); display: flex; flex-direction: column; }
+        .sidebar-header { padding: var(--space-md); font-family: var(--font-heading); font-weight: 800; font-size: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-header span { color: var(--color-champagne-gold); }
+        .sidebar-nav { padding: var(--space-sm) 0; flex: 1; overflow-y: auto; }
+        .nav-item { display: block; padding: 0.75rem var(--space-md); color: rgba(255,255,255,0.8); font-weight: 500; }
+        .nav-item:hover, .nav-item.active { background-color: rgba(255,255,255,0.1); color: var(--color-champagne-gold); border-left: 4px solid var(--color-champagne-gold); }
+
+        /* Main Content */
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .topbar { background: var(--color-white); height: 60px; padding: 0 var(--space-lg); display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-sm); }
+        .content-area { padding: var(--space-md); overflow-y: auto; flex: 1; }
+
+        /* Data Table Premium Styling */
+        .card { background: var(--color-white); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); padding: var(--space-md); }
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md); }
+        .search-input { padding: 0.5rem 1rem; border: 1px solid #ccc; border-radius: var(--radius-pill); width: 300px; font-family: var(--font-body); }
+        .search-input:focus { outline: none; border-color: var(--color-academic-blue); }
+        
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { padding: 12px; border-bottom: 2px solid var(--color-muted-sage); color: #666; font-size: 0.9rem; text-transform: uppercase; }
+        td { padding: 12px; border-bottom: 1px solid #eee; color: var(--color-midnight-navy); }
+        tr:hover td { background-color: #f9fbfd; }
+        
+        .badge { padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; }
+        .badge-active { background: #d1fae5; color: #059669; }
+        .badge-inactive { background: #fee2e2; color: #dc2626; }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">AURORA <span>PORTAL</span></div>
+        <nav class="sidebar-nav">
+            <a href="/dashboard/admin.html" class="nav-item">Dashboard</a>
+            <a href="/dashboard/admissions.html" class="nav-item">Admissions</a>
+            <a href="/dashboard/students.html" class="nav-item active">Students</a>
+            <a href="/dashboard/attendance.html" class="nav-item">Attendance</a>
+            <a href="#" class="nav-item">Teachers</a>
+            <a href="#" class="nav-item">Classes</a>
+            <a href="/dashboard/fees.html" class="nav-item">Fees & Payments</a>
+        </nav>
+        <div style="padding: var(--space-md);">
+            <a href="/api/auth/logout" class="nav-item" style="border: 1px solid rgba(255,255,255,0.2); text-align: center; border-radius: 4px;">Logout</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <h3 style="margin: 0; color: var(--color-midnight-navy);">Student Database</h3>
+            <div style="font-weight: 500;">Admin User</div>
+        </header>
+
+        <div class="content-area">
+            <div class="card">
+                <div class="toolbar">
+                    <h2 style="margin: 0; font-size: 1.5rem;">All Students</h2>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="searchInput" class="search-input" placeholder="Search by name or admission no...">
+                        <button class="btn-primary" style="padding: 0.5rem 1rem;">+ Add New</button>
+                    </div>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Admission No.</th>
+                                <th>Student Name</th>
+                                <th>Class</th>
+                                <th>Gender</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody">
+                            <tr><td colspan="6" style="text-align: center;">Loading students...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let allStudents = [];
+
+        async function loadStudents() {
+            try {
+                const response = await fetch('/api/students/list');
+                
+                if (response.status === 401) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+                const result = await response.json();
+                if (result.success) {
+                    allStudents = result.students;
+                    renderTable(allStudents);
+                }
+            } catch (error) {
+                console.error('Failed to load students:', error);
+                document.getElementById('studentsTableBody').innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">Error loading data</td></tr>';
+            }
+        }
+
+        function renderTable(students) {
+            const tbody = document.getElementById('studentsTableBody');
+            tbody.innerHTML = '';
+
+            if (students.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No students found.</td></tr>';
+                return;
+            }
+
+            students.forEach(student => {
+                const badgeClass = student.status === 'Active' ? 'badge-active' : 'badge-inactive';
+                const row = `
+                    <tr>
+                        <td style="font-weight: 600;">${student.admission_number}</td>
+                        <td>${student.first_name} ${student.last_name}</td>
+                        <td>${student.class_name || 'N/A'}</td>
+                        <td>${student.gender}</td>
+                        <td><span class="badge ${badgeClass}">${student.status}</span></td>
+                        <td><a href="#" style="color: var(--color-academic-blue); font-weight: 600;">View</a></td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // Search Functionality (Frontend Filtering)
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            const filtered = allStudents.filter(s => 
+                s.first_name.toLowerCase().includes(term) || 
+                s.last_name.toLowerCase().includes(term) || 
+                s.admission_number.toLowerCase().includes(term)
+            );
+            renderTable(filtered);
+        });
+
+        window.onload = loadStudents;
+    </script>
+</body>
+</html>

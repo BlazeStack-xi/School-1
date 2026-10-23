@@ -1,0 +1,33 @@
+/* public/assets/css/tokens.css */
+:root {
+    /* Premium Color Palette */
+    --color-midnight-navy: #101c32;
+    --color-academic-blue: #285a8f;
+    --color-warm-ivory: #f7f8fb;
+    --color-champagne-gold: #c9a96e;
+    --color-muted-sage: #e9edf2;
+    --color-text-charcoal: #263246;
+    --color-white: #FFFFFF;
+    
+    /* Typography */
+    --font-heading: 'Manrope', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    
+    /* Spacing & Layout */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 2rem;
+    --space-lg: 4rem;
+    --space-xl: 8rem;
+    
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 22px;
+    --radius-pill: 9999px;
+    
+    /* Transitions & Shadows */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-sm: 0 8px 24px rgba(16, 28, 50, 0.06);
+    --shadow-md: 0 18px 50px rgba(16, 28, 50, 0.12);
+    --shadow-glow: 0 14px 34px rgba(201, 169, 110, 0.24);
+}

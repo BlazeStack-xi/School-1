@@ -1,0 +1,868 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora International School | Where Curiosity Becomes Confidence</title>
+
+    <link rel="stylesheet" href="/assets/css/tokens.css">
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+
+    <style>
+        /* Homepage Advanced Design Enhancements */
+        .announcement-bar {
+            background: linear-gradient(135deg, var(--color-midnight-navy), var(--color-academic-blue));
+            color: var(--color-warm-ivory);
+            text-align: center;
+            padding: 0.6rem var(--space-sm);
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .announcement-bar a {
+            color: var(--color-champagne-gold);
+            text-decoration: underline;
+            font-weight: 700;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem var(--space-lg);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--color-midnight-navy);
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--color-champagne-gold);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-md);
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--color-midnight-navy);
+        }
+
+        .nav-links a:hover {
+            color: var(--color-champagne-gold);
+        }
+
+        /* Immersive Hero Section */
+        .hero {
+            position: relative;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding: var(--space-xl) var(--space-lg);
+            background-color: var(--color-midnight-navy);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(20, 36, 58, 0.9), rgba(35, 76, 120, 0.6)),
+                url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2000&auto=format&fit=crop') center/cover;
+            z-index: 0;
+            transform: scale(1.02);
+            animation: slowZoom 20s infinite alternate;
+        }
+
+        @keyframes slowZoom {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.08);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 850px;
+            color: var(--color-white);
+            animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(199, 167, 108, 0.15);
+            border: 1px solid var(--color-champagne-gold);
+            color: var(--color-champagne-gold);
+            padding: 6px 16px;
+            border-radius: var(--radius-pill);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: var(--space-sm);
+            backdrop-filter: blur(5px);
+        }
+
+        .hero-content h1 {
+            color: var(--color-white);
+            font-size: clamp(3rem, 5.5vw, 5rem);
+            line-height: 1.05;
+            margin-bottom: var(--space-sm);
+            letter-spacing: -1px;
+        }
+
+        .hero-content p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            opacity: 0.9;
+            margin-bottom: var(--space-md);
+            max-width: 650px;
+            font-weight: 400;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .hero-actions .btn-secondary {
+            border-color: var(--color-white);
+            color: var(--color-white);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        .hero-actions .btn-secondary:hover {
+            background-color: var(--color-white);
+            color: var(--color-midnight-navy);
+        }
+
+        /* Testimonial Cards Carousel Style */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--space-md);
+        }
+
+        .testimonial-card {
+            background: var(--color-white);
+            padding: var(--space-md);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border-top: 4px solid var(--color-champagne-gold);
+            position: relative;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            color: #444;
+            margin-bottom: var(--space-sm);
+            font-size: 1.05rem;
+        }
+
+        /* Floating Quick Action Widget */
+        .floating-action {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--color-champagne-gold);
+            color: var(--color-midnight-navy);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+            transition: var(--transition-smooth);
+            text-decoration: none;
+        }
+
+        .floating-action:hover {
+            transform: scale(1.1) rotate(10deg);
+            background: var(--color-white);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .announcement-bar {
+            min-height: 42px;
+            background: linear-gradient(105deg, #0d1729, #1c3c62);
+            letter-spacing: 0.01em;
+        }
+
+        .announcement-bar span::before {
+            content: "";
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            margin: 0 10px 1px 0;
+            border-radius: 50%;
+            background: var(--color-champagne-gold);
+            box-shadow: 0 0 0 4px rgba(201, 169, 110, 0.15), 0 0 14px rgba(201, 169, 110, 0.65);
+        }
+
+        .announcement-bar a {
+            text-decoration: none;
+            border-bottom: 1px solid rgba(201, 169, 110, 0.7);
+        }
+
+        .navbar {
+            max-width: 100%;
+            border-bottom: 1px solid rgba(16, 28, 50, 0.06);
+        }
+
+        .logo {
+            letter-spacing: -0.06em;
+        }
+
+        .logo span {
+            letter-spacing: 0.08em;
+            font-size: 0.78em;
+        }
+
+        .nav-links > a:not(.btn-primary) {
+            position: relative;
+            padding: 0.45rem 0;
+        }
+
+        .nav-links > a:not(.btn-primary)::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--color-champagne-gold);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.25s ease;
+        }
+
+        .nav-links > a:not(.btn-primary):hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .hero {
+            min-height: min(780px, 88vh);
+            isolation: isolate;
+            background:
+                radial-gradient(ellipse at 88% 18%, rgba(75, 135, 184, 0.28), transparent 28%),
+                var(--color-midnight-navy);
+        }
+
+        .hero::before {
+            background:
+                linear-gradient(90deg, rgba(11, 22, 40, 0.94) 0%, rgba(16, 28, 50, 0.78) 48%, rgba(16, 28, 50, 0.34) 100%),
+                url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2000&auto=format&fit=crop') center/cover;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.22;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 72px 72px;
+            mask-image: linear-gradient(90deg, black, transparent 78%);
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(201, 169, 110, 0.65);
+            box-shadow: inset 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-badge::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--color-champagne-gold);
+            box-shadow: 0 0 12px var(--color-champagne-gold);
+        }
+
+        .hero-content h1 {
+            max-width: 850px;
+            font-size: clamp(3.25rem, 7vw, 6.1rem);
+            letter-spacing: -0.065em;
+        }
+
+        .hero-accent {
+            color: #e2c58d;
+        }
+
+        .hero-content p {
+            max-width: 610px;
+            color: rgba(255, 255, 255, 0.82);
+        }
+
+        .hero-actions .btn-primary {
+            color: var(--color-midnight-navy);
+        }
+
+        .hero-actions .btn-secondary {
+            border-width: 1px;
+            border-radius: var(--radius-pill);
+        }
+
+        .welcome-visual {
+            position: relative;
+            isolation: isolate;
+            border: 8px solid rgba(255, 255, 255, 0.82);
+            outline: 1px solid rgba(40, 90, 143, 0.12);
+        }
+
+        .welcome-visual::after {
+            content: "AURORA  /  GURUGRAM";
+            position: absolute;
+            right: 18px;
+            bottom: 18px;
+            z-index: 1;
+            padding: 10px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: var(--radius-pill);
+            background: rgba(16, 28, 50, 0.68);
+            color: white;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            backdrop-filter: blur(12px);
+        }
+
+        .section-header h2,
+        .welcome-content h2 {
+            letter-spacing: -0.05em;
+        }
+
+        .card {
+            min-height: 100%;
+        }
+
+        .feature-item h3 {
+            margin-bottom: 0.35rem;
+        }
+
+        .feature-item p {
+            color: #596579;
+            font-size: 0.95rem;
+        }
+
+        .testimonial-card {
+            border: 1px solid rgba(40, 90, 143, 0.08);
+            border-top: 0;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-smooth);
+        }
+
+        .testimonial-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 auto auto 0;
+            width: 54px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-champagne-gold), transparent);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .admissions-cta {
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 95% 5%, rgba(201, 169, 110, 0.2), transparent 32%),
+                linear-gradient(145deg, #101c32, #1e4169);
+            color: var(--color-white);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .admissions-cta h3 {
+            color: var(--color-white);
+            font-size: 2rem;
+            margin-bottom: var(--space-xs);
+        }
+
+        .admissions-cta p {
+            color: rgba(255, 255, 255, 0.78);
+            margin-bottom: var(--space-md);
+        }
+
+        .floating-action {
+            width: 58px;
+            height: 58px;
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            background: linear-gradient(145deg, #e2c58d, var(--color-champagne-gold));
+            box-shadow: 0 14px 35px rgba(16, 28, 50, 0.28), 0 0 0 7px rgba(201, 169, 110, 0.14);
+        }
+
+        .floating-action svg {
+            width: 23px;
+            height: 23px;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        @media (max-width: 900px) {
+            .navbar {
+                gap: var(--space-sm);
+                flex-wrap: wrap;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+
+            .welcome-content {
+                padding-left: 0 !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .announcement-bar {
+                flex-wrap: wrap;
+                gap: 2px 8px;
+                padding: 0.55rem var(--space-xs);
+                font-size: 0.78rem;
+            }
+
+            .navbar {
+                justify-content: center;
+                padding: 0.85rem var(--space-sm);
+            }
+
+            .nav-links {
+                justify-content: center;
+                gap: 0.35rem 0.9rem;
+            }
+
+            .nav-links a {
+                font-size: 0.82rem;
+            }
+
+            .nav-links .btn-primary {
+                padding: 0.5rem 0.9rem !important;
+                margin-left: 0 !important;
+            }
+
+            .hero {
+                min-height: 78vh;
+                padding: 5rem var(--space-sm);
+            }
+
+            .hero-content h1 {
+                font-size: clamp(2.75rem, 13vw, 4rem);
+            }
+
+            .hero-badge {
+                font-size: 0.68rem;
+                letter-spacing: 0.08em;
+            }
+
+            .welcome-visual {
+                height: 340px !important;
+            }
+
+            .admissions-cta {
+                padding: var(--space-md);
+            }
+
+            .floating-action {
+                right: 18px;
+                bottom: 18px;
+                width: 52px;
+                height: 52px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Announcement Strip -->
+    <div class="announcement-bar">
+        <span>Admissions Open for Academic Year 2027-28 in Gurugram.</span>
+        <a href="/apply.html">Secure Your Child's Seat &rarr;</a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="/" class="logo">AURORA <span>SCHOOL</span></a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/about.html">About</a>
+            <a href="/academics.html">Academics</a>
+            <a href="/apply.html">Admissions</a>
+            <a href="/contact.html">Contact</a>
+            <a href="/login.html" class="btn-primary"
+                style="padding: 0.5rem 1.4rem; margin-left: var(--space-xs);">Portal Login</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Ranked Among Top 10 International Schools</div>
+            <h1>Discover Your Potential.<br><span class="hero-accent">Shape Your Future.</span></h1>
+            <p>Fostering elite curiosity, building unshakeable confidence, and cultivating global character in a
+                world-class academic sanctuary.</p>
+            <div class="hero-actions">
+                <a href="/apply.html" class="btn-primary">Start Application</a>
+                <a href="/contact.html" class="btn-secondary">Book Campus Tour</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Trust Indicators / Stats -->
+    <div class="container">
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-number">15+</span>
+                <span class="stat-label">Years of Excellence</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">24</span>
+                <span class="stat-label">Acres Smart Campus</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">1:12</span>
+                <span class="stat-label">Teacher-Student Ratio</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Ivy League & Univ. Placements</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome to Aurora -->
+    <section class="section">
+        <div class="container grid-2">
+            <div class="welcome-visual"
+                style="border-radius: var(--radius-lg); overflow: hidden; height: 520px; box-shadow: var(--shadow-md);">
+                <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=1000&auto=format&fit=crop"
+                    alt="Aurora School Campus" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="padding-left: var(--space-md);">
+                <h4
+                    style="color: var(--color-champagne-gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: var(--space-xs); font-weight: 800;">
+                    The Aurora Standard</h4>
+                <h2 style="font-size: 2.6rem; line-height: 1.15; margin-bottom: var(--space-sm);">Where time-tested
+                    traditions meet futuristic educational innovation.</h2>
+                <p style="margin-bottom: var(--space-md); font-size: 1.1rem; color: #555;">Nestled in the corporate hub
+                    of Gurugram, Aurora International School provides an intellectually vibrant environment. We don't
+                    just teach curricula; we mentor young visionaries equipped to lead tomorrow's world.</p>
+                <div
+                    style="border-left: 4px solid var(--color-champagne-gold); padding-left: var(--space-sm); margin-bottom: var(--space-md); background: rgba(199,167,108,0.05); padding-top: 10px; padding-bottom: 10px; border-radius: 0 var(--radius-md) var(--radius-md) 0;">
+                    <p style="font-style: italic; font-weight: 600; color: var(--color-midnight-navy);">"Our mission is
+                        to ignite an insatiable love for learning combined with deep emotional resilience."</p>
+                    <p style="font-size: 0.9rem; margin-top: 8px; font-weight: 700; color: var(--color-academic-blue);">
+                        — Dr. Sarah Thompson, Principal</p>
+                </div>
+                <a href="/about.html" class="btn-secondary">Read Our Full Philosophy</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Academic Excellence -->
+    <section class="section section-bg-muted">
+        <div class="container">
+            <div class="section-header">
+                <h2>Academic Programs</h2>
+                <p>A seamlessly integrated continuum designed to nurture talent from early childhood years to university
+                    entrance.</p>
+            </div>
+
+            <div class="grid-4">
+                <div class="card">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1587691592099-24045742c181?q=80&w=600&auto=format&fit=crop"
+                            alt="Early Years">
+                    </div>
+                    <div class="card-content">
+                        <h3>Early Years</h3>
+                        <p>Nursery & Kindergarten. Joyful experiential learning, sensory exploration, and foundational
+                            motor development.</p>
+                        <a href="#" class="link-arrow">Explore Program &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=600&auto=format&fit=crop"
+                            alt="Primary School">
+                    </div>
+                    <div class="card-content">
+                        <h3>Primary School</h3>
+                        <p>Grades I to V. Building core competencies in literacy, inquiry-based STEM, and expressive
+                            arts.</p>
+                        <a href="#" class="link-arrow">Explore Program &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=600&auto=format&fit=crop"
+                            alt="Middle School">
+                    </div>
+                    <div class="card-content">
+                        <h3>Middle School</h3>
+                        <p>Grades VI to VIII. Cultivating critical thinking, collaborative coding labs, and leadership
+                            initiatives.</p>
+                        <a href="#" class="link-arrow">Explore Program &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=600&auto=format&fit=crop"
+                            alt="Senior School">
+                    </div>
+                    <div class="card-content">
+                        <h3>Senior School</h3>
+                        <p>Grades IX to XII (CBSE). Intensive academic rigor, advanced research projects, and university
+                            counseling.</p>
+                        <a href="#" class="link-arrow">Explore Program &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="section section-bg-white">
+        <div class="container">
+            <div class="section-header">
+                <h2>The Aurora Advantage</h2>
+                <p>Designed from the ground up to provide an unmatched educational ecosystem.</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M9 3h6"></path><path d="M10 3v6.2l-4.8 8.2A2.4 2.4 0 0 0 7.3 21h9.4a2.4 2.4 0 0 0 2.1-3.6L14 9.2V3"></path><path d="M8 15h8"></path><path d="m9.5 12 1.2 1.2"></path></svg>
+                    </div>
+                    <div>
+                        <h3>Next-Gen Laboratories</h3>
+                        <p>Robotics workshops, AI maker spaces, and fully equipped physics, chemistry & biology research
+                            stations.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"></path><path d="M4 5.5v16"></path><path d="M8 7h8"></path><path d="M8 11h8"></path></svg>
+                    </div>
+                    <div>
+                        <h3>Learning Resource Center</h3>
+                        <p>Over 25,000 volumes, collaborative pods, digital archive subscriptions, and quiet reading
+                            rotundas.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m12 8 2.4 1.7-.9 2.8h-3l-.9-2.8z"></path><path d="m5.5 6.5 4.1 3.2"></path><path d="m18.5 6.5-4.1 3.2"></path><path d="m7 18 3.5-5.5"></path><path d="m17 18-3.5-5.5"></path></svg>
+                    </div>
+                    <div>
+                        <h3>Olympic-Grade Athletics</h3>
+                        <p>All-weather synthetic turf, FINA-standard heated indoor pool, badminton arenas, and
+                            equestrian training.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M8.2 14.5a7 7 0 1 1 7.6 0c-.9.6-1.3 1.4-1.4 2.5h-4.8c-.1-1.1-.5-1.9-1.4-2.5z"></path><path d="M12 2v1"></path></svg>
+                    </div>
+                    <div>
+                        <h3>Holistic Wellness & Care</h3>
+                        <p>Dedicated staff psychologists, mindfulness yoga blocks, and 24/7 campus infirmary support.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parent Testimonials Section -->
+    <section class="section section-bg-muted">
+        <div class="container">
+            <div class="section-header">
+                <h2>Voices from Our Community</h2>
+                <p>Hear what parents and alumni have to say about their journey with Aurora.</p>
+            </div>
+
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p>"Choosing Aurora for our son was the best decision we made. The individual attention and focus on
+                        practical engineering and arts is truly phenomenal."</p>
+                    <div style="font-weight: 700; color: var(--color-midnight-navy);">Rajesh & Sunita Malhotra</div>
+                    <div style="font-size: 0.85rem; color: #666;">Parents of Grade 9 Student</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"The campus infrastructure and faculty mentorship gave me the confidence to crack competitive
+                        olympiads and lead my robotics team. I owe my success to Aurora."</p>
+                    <div style="font-weight: 700; color: var(--color-midnight-navy);">Aarav Kapoor</div>
+                    <div style="font-size: 0.85rem; color: #666;">Alumnus (Batch of 2024, IIT Delhi)</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"A wonderful balance of traditional values and modern teaching methods. My daughter looks forward
+                        to school every single day!"</p>
+                    <div style="font-weight: 700; color: var(--color-midnight-navy);">Dr. Meenakshi Sen</div>
+                    <div style="font-size: 0.85rem; color: #666;">Parent of Grade 4 Student</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admissions Timeline & CTA -->
+    <section class="section section-bg-white">
+        <div class="container grid-2">
+            <div>
+                <h2 style="font-size: 2.5rem; margin-bottom: var(--space-sm);">Admissions Journey 2027-28</h2>
+                <p style="margin-bottom: var(--space-md); color: #555;">We welcome families who share our vision for
+                    holistic, value-driven excellence. Our admission steps are transparent and seamless.</p>
+                <div class="timeline">
+                    <div class="timeline-step">
+                        <h3>1. Online Inquiry & Tour</h3>
+                        <p style="color: #666; font-size: 0.95rem;">Submit your details online or visit our 24-acre
+                            Gurugram campus.</p>
+                    </div>
+                    <div class="timeline-step">
+                        <h3>2. Interaction Session</h3>
+                        <p style="color: #666; font-size: 0.95rem;">A friendly diagnostic session with academic
+                            coordinators.</p>
+                    </div>
+                    <div class="timeline-step">
+                        <h3>3. Offer & Enrollment</h3>
+                        <p style="color: #666; font-size: 0.95rem;">Receive your official admission packet and welcome
+                            kit.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admissions-cta">
+                <h3>Ready to Join Us?</h3>
+                <p>Seats for the upcoming academic session are strictly limited to maintain our 1:12 ratio.</p>
+                <a href="/apply.html" class="btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">Start Online
+                    Application &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Quick Action Button -->
+    <a href="/apply.html" class="floating-action" title="Apply Now" aria-label="Apply now">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"></path></svg>
+    </a>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div>
+                <a href="/" class="logo"
+                    style="color: var(--color-white); display: block; margin-bottom: var(--space-sm);">AURORA <span
+                        style="color: var(--color-champagne-gold);">SCHOOL</span></a>
+                <p>Where Curiosity Becomes Confidence.</p>
+                <p style="margin-top: var(--space-sm);">
+                    Sector 45, Gurugram, Haryana, India<br>
+                    CBSE Affiliated International Curriculum<br>
+                    Co-educational, Nursery to Grade XII
+                </p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <a href="/about.html">About Us</a>
+                <a href="#">Leadership & Faculty</a>
+                <a href="#">News & Events</a>
+                <a href="#">Careers</a>
+                <a href="#">FAQ</a>
+            </div>
+            <div>
+                <h4>Academics</h4>
+                <a href="#">Early Years</a>
+                <a href="#">Primary School</a>
+                <a href="#">Middle School</a>
+                <a href="#">Senior Secondary</a>
+                <a href="#">Fee Structure</a>
+            </div>
+            <div>
+                <h4>Contact Us</h4>
+                <p>Email: admissions@aurora-school.example</p>
+                <p>Phone: +91 98765 43210</p>
+                <p>WhatsApp: +91 98765 43210</p>
+                <a href="/login.html" class="btn-primary"
+                    style="display: inline-block; padding: 0.5rem 1rem; margin-top: 0.5rem; text-align: center;">Management
+                    Portal</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Aurora International School. All rights reserved. | <a href="#"
+                    style="display: inline; color: inherit; text-decoration: underline;">Privacy Policy</a> | <a
+                    href="#" style="display: inline; color: inherit; text-decoration: underline;">Terms of Service</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+<!-- public/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Login | Aurora International School</title>
+    <link rel="stylesheet" href="/assets/css/tokens.css">
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <style>
+        body {
+            background-color: var(--color-midnight-navy);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .login-card {
+            background: var(--color-white);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: var(--space-md);
+        }
+        .form-group {
+            margin-bottom: var(--space-sm);
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: var(--radius-sm);
+        }
+        .error-msg {
+            color: #d32f2f;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="login-header">
+            <h2 style="color: var(--color-midnight-navy);">AURORA <span style="color: var(--color-champagne-gold);">PORTAL</span></h2>
+            <p style="color: #666; font-size: 0.9rem;">Sign in to your account</p>
+        </div>
+
+        <div class="error-msg" id="errorMsg"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" required placeholder="admin@aurora.example">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; margin-top: var(--space-sm);" id="loginBtn">Secure Login</button>
+        </form>
+        
+        <div style="text-align: center; margin-top: var(--space-sm);">
+            <a href="/" style="font-size: 0.9rem; color: var(--color-academic-blue);">&larr; Back to Website</a>
+        </div>
+    </div>
+
+    <!-- Yaha Frontend JavaScript API call sambhal rahi hai -->
+    <script>
+        const form = document.getElementById('loginForm');
+        
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Yeh line page ko reload hone se rokti hai
+            
+            const btn = document.getElementById('loginBtn');
+            const errorMsg = document.getElementById('errorMsg');
+            
+            btn.textContent = 'Authenticating...';
+            btn.disabled = true;
+            errorMsg.style.display = 'none';
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Agar login success hua toh dashboard par le jayega
+                    window.location.href = result.redirectUrl;
+                } else {
+                    // Error msg dikhayega
+                    errorMsg.textContent = result.message;
+                    errorMsg.style.display = 'block';
+                    btn.textContent = 'Secure Login';
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                console.error(err);
+                errorMsg.textContent = 'Server connection failed.';
+                errorMsg.style.display = 'block';
+                btn.textContent = 'Secure Login';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
